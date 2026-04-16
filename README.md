@@ -106,8 +106,8 @@ Built for innovation in AI + Media Security + Sports Tech
 
 ## 👥 Team
 
-* Sahithi Rithvika
-* Team Members
+* Sahithi Rithvika Katakam
+* Sai Spoorthy Eturu
 
 ---
 

@@ -58,7 +58,9 @@ In the era of generative AI, distinguishing between authentic and AI-generated c
 ## 🎬 Demo
 
 ### Upload & Analyze
-Simply drag and drop your image or video file to begin analysis.
+<img width="1792" height="1120" alt="Untitled" src="https://github.com/user-attachments/assets/d75ffd33-da02-44ee-8825-183ae1c9e43a" />
+<img width="1792" height="1120" alt="Untitled 2" src="https://github.com/user-attachments/assets/3d32b074-8b1f-450b-b507-3e50c39deec8" />
+
 
 ### Detailed Results
 Get comprehensive authenticity scores across multiple detection algorithms:

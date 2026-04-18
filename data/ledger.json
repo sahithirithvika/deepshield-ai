@@ -52,5 +52,41 @@
         "score": 72.5,
         "verdict": "Suspicious",
         "timestamp": "2026-04-18 21:43:04.989877"
+    },
+    {
+        "id": "8aab512b-5748-45d5-bc79-ace73f2fee61",
+        "score": 63.35,
+        "verdict": "Fake",
+        "timestamp": "2026-04-18 21:56:44.886501"
+    },
+    {
+        "id": "6224edec-37d9-4f17-9215-05170ac6a0cd",
+        "score": 84.03372774258087,
+        "verdict": "Real",
+        "timestamp": "2026-04-18 22:00:48.576413"
+    },
+    {
+        "id": "575136c7-6c04-4a0b-a3d0-aa6e135573fa",
+        "score": 89.11196058918676,
+        "verdict": "Real",
+        "timestamp": "2026-04-18 22:02:37.387384"
+    },
+    {
+        "id": "b036283c-a3d3-4ee9-97b4-06147f990b8b",
+        "score": 61.375,
+        "verdict": "Fake",
+        "timestamp": "2026-04-18 22:06:56.515541"
+    },
+    {
+        "id": "aafed473-4df0-4183-b1cf-ab3ff1a744df",
+        "score": 86.79134917584467,
+        "verdict": "Real",
+        "timestamp": "2026-04-18 22:09:22.187222"
+    },
+    {
+        "id": "4f2dab01-8d90-49d8-916f-fc4bfc56c84f",
+        "score": 91.08226353372264,
+        "verdict": "Real",
+        "timestamp": "2026-04-18 22:12:05.432117"
     }
 ]

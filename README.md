@@ -60,6 +60,9 @@ In the era of generative AI, distinguishing between authentic and AI-generated c
 ### Upload & Analyze
 <img width="1792" height="1120" alt="Untitled" src="https://github.com/user-attachments/assets/d75ffd33-da02-44ee-8825-183ae1c9e43a" />
 <img width="1792" height="1120" alt="Untitled 2" src="https://github.com/user-attachments/assets/3d32b074-8b1f-450b-b507-3e50c39deec8" />
+<img width="1792" height="1120" alt="Untitled" src="https://github.com/user-attachments/assets/4ce670ac-0d75-4c82-a332-cba469fabc32" />
+<img width="1792" height="1120" alt="Untitled 2" src="https://github.com/user-attachments/assets/00ef6c59-1bab-46d5-b743-bf4a3a878ba4" />
+<img width="831" height="959" alt="Untitled 3" src="https://github.com/user-attachments/assets/a24fe93e-ff08-4cd0-bf55-50b499c22047" />
 
 
 ### Detailed Results

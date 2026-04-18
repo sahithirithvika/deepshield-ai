@@ -207,10 +207,10 @@ The system performs parallel analysis using multiple detection algorithms:
 
 ## 👥 Team
 
-- **Sahithi Rithvika Katakam** - AI/ML Engineer
-- **Sai Spoorthy Eturu** - Full Stack Developer
+- **Sahithi Rithvika Katakam** 
+- **Sai Spoorthy Eturu**
 
-Built with ❤️ for the hackathon by passionate developers committed to digital content integrity.
+Built with ❤️ for the Solution Challenge'2026 by passionate developers committed to digital content integrity.
 
 ## � License
 
@@ -226,7 +226,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Contact
 
 For questions, feedback, or collaboration opportunities:
-- 📧 Email: contact@deepshield.ai
+- 📧 Email: saispoorthyeturu6@gmail.com
 - 🐙 GitHub: [sahithirithvika/deepshield-ai](https://github.com/sahithirithvika/deepshield-ai)
 
 ---

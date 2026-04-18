@@ -447,16 +447,36 @@ if uploaded_file is not None:
         
         piracy_risk = random.choice(["Low", "Medium", "High"])
 
-    # Verdict logic - more sophisticated scoring
+    # Verdict logic - strict thresholds for high accuracy
     composite_score = (video_score + ai_detection_score) / 2 if file_type == 'image' else (video_score + audio_score + ai_detection_score) / 3
     
-    # Adjusted thresholds for better accuracy
-    if composite_score >= 80 and video_score >= 75 and ai_detection_score >= 75:
+    # Both scores must agree for high confidence verdict
+    min_score = min(video_score, ai_detection_score)
+    max_score = max(video_score, ai_detection_score)
+    score_agreement = max_score - min_score < 15  # Scores should be close
+    score_diff = abs(video_score - ai_detection_score)
+    
+    # Calculate confidence level
+    if score_diff < 8 and composite_score > 85:
+        confidence = "Very High"
+        confidence_color = "#00ff88"
+    elif score_diff < 12 and composite_score > 75:
+        confidence = "High"
+        confidence_color = "#00ffe1"
+    elif score_diff < 18:
+        confidence = "Medium"
+        confidence_color = "#ffa500"
+    else:
+        confidence = "Low"
+        confidence_color = "#ff6b6b"
+    
+    # Strict thresholds with score agreement check
+    if composite_score >= 82 and min_score >= 78 and score_agreement:
         verdict = "Real"
         verdict_color = "#00ff00"
         verdict_icon = "✅"
         verdict_text = "VERIFIED AUTHENTIC CONTENT"
-    elif composite_score >= 65 and video_score >= 60:
+    elif composite_score >= 68 and min_score >= 60:
         verdict = "Suspicious"
         verdict_color = "#ffa500"
         verdict_icon = "⚠️"
@@ -505,10 +525,16 @@ if uploaded_file is not None:
             <p style='font-size: 1.3rem; color: rgba(255,255,255,0.8); margin-top: 1rem;'>
                 Composite Authenticity Score: <b style='color: #00ffe1; font-size: 1.5rem;'>{final_score:.2f}%</b>
             </p>
+            <p style='font-size: 1.1rem; color: {confidence_color}; margin-top: 0.5rem;'>
+                Detection Confidence: <b>{confidence}</b>
+            </p>
             <div style='margin-top: 1.5rem; padding: 1rem; background: rgba(0,0,0,0.3); border-radius: 12px;'>
                 <p style='color: rgba(255,255,255,0.7); font-size: 0.95rem; margin: 0;'>
-                    Analysis completed using advanced computer vision algorithms, frequency domain analysis, 
-                    and multi-modal deepfake detection techniques.
+                    <b>Analysis Details:</b><br>
+                    • JPEG Compression: {"✓ Detected" if video_score > 75 else "✗ Not Found"}<br>
+                    • Frequency Patterns: {"✓ Natural" if ai_detection_score > 75 else "✗ Unusual"}<br>
+                    • Score Agreement: {"✓ High ({:.1f}% difference)".format(score_diff) if score_agreement else "⚠ Low ({:.1f}% difference)".format(score_diff)}<br>
+                    • Confidence Level: {confidence}
                 </p>
             </div>
         </div>

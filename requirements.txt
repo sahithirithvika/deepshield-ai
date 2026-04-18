@@ -1,7 +1,6 @@
 streamlit
 opencv-python
 numpy
-librosa
 imagehash
 Pillow
 reportlab

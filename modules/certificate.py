@@ -31,6 +31,8 @@ def generate_certificate(score, verdict):
         json.dump(ledger, f, indent=4)
 
     # ================= CREATE ENHANCED PDF =================
+    import os
+    os.makedirs("certificates", exist_ok=True)
     file_name = f"certificates/certificate_{cert_id}.pdf"
 
     doc = SimpleDocTemplate(file_name, pagesize=letter,

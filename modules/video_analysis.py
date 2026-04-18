@@ -88,13 +88,13 @@ def analyze_video(uploaded_file):
 
         # Natural motion: moderate mean diff AND some variance
         if 3 < td_mean < 40 and td_std > 1.5:
-            temporal_bonus = 5
-        elif td_mean < 1.0 or td_std < 0.5:
-            # Nearly static or perfectly uniform → suspicious
-            temporal_bonus = -15
-        elif td_mean > 60:
+            temporal_bonus = 3
+        elif td_mean < 0.5 or (td_std < 0.3 and td_mean < 2):
+            # Nearly static or perfectly uniform → slightly suspicious
+            temporal_bonus = -5
+        elif td_mean > 70:
             # Extreme flickering → suspicious
-            temporal_bonus = -10
+            temporal_bonus = -5
         else:
             temporal_bonus = 0
 
@@ -105,13 +105,13 @@ def analyze_video(uploaded_file):
     # Real videos have some natural variance across frames.
     # AI videos often have suspiciously consistent per-frame scores.
     score_variance = np.std(frame_scores)
-    if score_variance < 3:
+    if score_variance < 2:
         # All frames score almost identically → AI-generated flag
-        base_video = np.clip(base_video - 12, 0, 100)
-        base_ai    = np.clip(base_ai    - 12, 0, 100)
+        base_video = np.clip(base_video - 8, 0, 100)
+        base_ai    = np.clip(base_ai    - 8, 0, 100)
     elif score_variance > 5:
         # Healthy variance → slight boost
-        base_video = np.clip(base_video + 3, 0, 100)
+        base_video = np.clip(base_video + 2, 0, 100)
 
     return float(base_video), float(base_ai)
 
@@ -133,19 +133,21 @@ def _score_frame(img):
                 block_score += 1
             block_count += 1
     compression_ratio = block_score / max(1, block_count)
-    if   compression_ratio > 0.70: scores.append(95)
-    elif compression_ratio > 0.50: scores.append(85)
-    elif compression_ratio > 0.30: scores.append(70)
-    else:                          scores.append(35)
+    # More lenient for video frames (often re-encoded)
+    if   compression_ratio > 0.60: scores.append(95)
+    elif compression_ratio > 0.40: scores.append(85)
+    elif compression_ratio > 0.25: scores.append(75)
+    else:                          scores.append(50)
     weights.append(30)
 
     # 2. High-frequency detail (weight 25)
     lap_var = cv2.Laplacian(gray, cv2.CV_64F).var()
     if   lap_var > 300: scores.append(95)
     elif lap_var > 150: scores.append(85)
-    elif lap_var > 80:  scores.append(70)
-    elif lap_var > 40:  scores.append(55)
-    else:               scores.append(28)
+    elif lap_var > 80:  scores.append(75)
+    elif lap_var > 40:  scores.append(65)
+    elif lap_var > 20:  scores.append(55)
+    else:               scores.append(40)
     weights.append(25)
 
     # 3. Sensor noise (weight 20)
@@ -159,10 +161,11 @@ def _score_frame(img):
         noise_levels.append(np.std(region - blurred))
     avg_noise = np.mean(noise_levels)
     noise_std = np.std(noise_levels)
+    # More lenient - video compression reduces noise
     if   2 < avg_noise < 8  and noise_std < 2: scores.append(95)
-    elif 1 < avg_noise < 10 and noise_std < 3: scores.append(80)
-    elif avg_noise > 0.5:                       scores.append(60)
-    else:                                       scores.append(30)
+    elif 1 < avg_noise < 10 and noise_std < 3: scores.append(85)
+    elif avg_noise > 0.3:                       scores.append(70)
+    else:                                       scores.append(50)
     weights.append(20)
 
     # 4. Color channel correlation (weight 15)
@@ -173,9 +176,9 @@ def _score_frame(img):
     rb = abs(np.corrcoef(r.flatten()[idx], b.flatten()[idx])[0, 1])
     avg_corr = (rg + rb) / 2
     if   0.45 < avg_corr < 0.75: scores.append(90)
-    elif 0.35 < avg_corr < 0.85: scores.append(75)
-    elif 0.25 < avg_corr < 0.90: scores.append(60)
-    else:                         scores.append(38)
+    elif 0.35 < avg_corr < 0.85: scores.append(80)
+    elif 0.25 < avg_corr < 0.90: scores.append(70)
+    else:                         scores.append(55)
     weights.append(15)
 
     # 5. Resolution / aspect ratio (weight 10)
@@ -185,16 +188,16 @@ def _score_frame(img):
     ratio_ok = any(abs(ar - r) < 0.15 for r in std_ratios)
     if   total_px > 2_000_000 and ratio_ok: scores.append(95)
     elif total_px > 1_000_000 and ratio_ok: scores.append(85)
-    elif total_px > 500_000:                scores.append(70)
-    else:                                   scores.append(55)
+    elif total_px > 500_000:                scores.append(75)
+    else:                                   scores.append(60)
     weights.append(10)
 
     final = float(np.average(scores, weights=weights))
     # Boost / penalty
-    if compression_ratio > 0.7 and lap_var > 200 and avg_noise > 2:
-        final = min(100, final + 3)
-    if compression_ratio < 0.3 and lap_var < 50:
-        final = max(0,   final - 10)
+    if compression_ratio > 0.6 and lap_var > 150 and avg_noise > 1.5:
+        final = min(100, final + 5)
+    if compression_ratio < 0.2 and lap_var < 30:
+        final = max(0,   final - 15)
     return float(np.clip(final, 0, 100))
 
 
@@ -215,10 +218,11 @@ def _ai_score_frame(img):
     mf = mag[(dist >= sz//8) & (dist < sz//4)].mean()
     hf = mag[dist >= sz//4].mean()
     fb = (mf + hf) / (lf + 1e-10)
-    if   0.55 < fb < 0.95: scores.append(95)
-    elif 0.45 < fb < 1.10: scores.append(82)
-    elif 0.35 < fb < 1.30: scores.append(65)
-    else:                   scores.append(32)
+    # More lenient range for video frames
+    if   0.50 < fb < 1.00: scores.append(95)
+    elif 0.40 < fb < 1.15: scores.append(85)
+    elif 0.30 < fb < 1.35: scores.append(70)
+    else:                   scores.append(45)
     weights.append(35)
 
     # 2. Chromatic aberration (weight 25)
@@ -229,10 +233,11 @@ def _ai_score_frame(img):
     te = np.sum(er > 0) + 1
     mr = (np.sum(np.abs(er.astype(int) - eg.astype(int))) +
           np.sum(np.abs(er.astype(int) - eb.astype(int)))) / (2 * te)
-    if   0.18 < mr < 0.32: scores.append(92)
-    elif 0.12 < mr < 0.40: scores.append(78)
-    elif 0.08 < mr < 0.50: scores.append(60)
-    else:                   scores.append(35)
+    # More lenient for video
+    if   0.15 < mr < 0.35: scores.append(92)
+    elif 0.10 < mr < 0.45: scores.append(82)
+    elif 0.05 < mr < 0.55: scores.append(70)
+    else:                   scores.append(50)
     weights.append(25)
 
     # 3. Texture (weight 20)
@@ -246,10 +251,11 @@ def _ai_score_frame(img):
         gy = cv2.Sobel(patch, cv2.CV_64F, 0, 1, ksize=3)
         gvals.append(np.mean(np.sqrt(gx**2 + gy**2)))
     at, ts, ag = np.mean(tvars), np.std(tvars), np.mean(gvals)
-    if   at > 150 and ts < 400 and ag > 8: scores.append(93)
-    elif at > 80  and ts < 600 and ag > 5: scores.append(80)
-    elif at > 40:                           scores.append(62)
-    else:                                   scores.append(35)
+    # More lenient
+    if   at > 120 and ts < 500 and ag > 6: scores.append(93)
+    elif at > 60  and ts < 700 and ag > 4: scores.append(82)
+    elif at > 30:                           scores.append(70)
+    else:                                   scores.append(50)
     weights.append(20)
 
     # 4. Color naturalness (weight 12)
@@ -258,24 +264,25 @@ def _ai_score_frame(img):
     hist = np.histogram(hc, bins=180)[0] / hc.size
     he = -np.sum((hist + 1e-10) * np.log(hist + 1e-10))
     ss, vs = np.std(sc), np.std(vc)
-    if   he > 4.5 and 25 < ss < 80 and 30 < vs < 90: scores.append(90)
-    elif he > 3.5 and 15 < ss < 100:                  scores.append(75)
-    else:                                              scores.append(52)
+    if   he > 4.0 and 20 < ss < 90 and 25 < vs < 95: scores.append(90)
+    elif he > 3.0 and 10 < ss < 110:                  scores.append(78)
+    else:                                              scores.append(60)
     weights.append(12)
 
     # 5. Dimensions (weight 8)
     tp = h * w
     ar = w / h if h else 1
-    ok = tp > 500_000 and 0.5 < ar < 2.5
+    ok = tp > 300_000 and 0.4 < ar < 3.0
     if   ok and tp > 2_000_000: scores.append(92)
-    elif ok:                     scores.append(80)
-    elif tp > 500_000:           scores.append(65)
-    else:                        scores.append(50)
+    elif ok and tp > 1_000_000: scores.append(85)
+    elif tp > 500_000:           scores.append(75)
+    else:                        scores.append(60)
     weights.append(8)
 
     final = float(np.average(scores, weights=weights))
-    if fb > 0.6 and mr > 0.15 and at > 150:
-        final = min(100, final + 4)
-    if fb < 0.35 and mr < 0.1:
-        final = max(0,   final - 12)
+    # More lenient boost/penalty
+    if fb > 0.55 and mr > 0.12 and at > 100:
+        final = min(100, final + 5)
+    if fb < 0.30 and mr < 0.08:
+        final = max(0,   final - 10)
     return float(np.clip(final, 0, 100))

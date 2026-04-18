@@ -1,6 +1,5 @@
 import streamlit as st
 import base64
-import random
 import datetime
 import time
 import numpy as np
@@ -9,6 +8,7 @@ import numpy as np
 from modules.certificate import generate_certificate
 from modules.video_analysis import analyze_image, analyze_video
 from modules.audio_analysis import detect_ai_generated
+from modules.piracy_check import check_piracy
 
 # ================= PAGE CONFIG =================
 st.set_page_config(
@@ -409,15 +409,6 @@ st.write("")
 # ================= FILE UPLOAD =================
 uploaded_file = st.file_uploader("📤 Upload a sports video or image", type=["mp4", "mov", "avi", "jpg", "jpeg", "png"])
 
-# ================= VERDICT FUNCTION =================
-def show_verdict(verdict):
-    if verdict == "Real":
-        st.markdown("<h2 style='color:#00ff00;'>✅ VERIFIED SPORTS CONTENT</h2>", unsafe_allow_html=True)
-    elif verdict == "Fake":
-        st.markdown("<h2 style='color:#ff4b4b;'>🚨 FAKE CONTENT DETECTED</h2>", unsafe_allow_html=True)
-    else:
-        st.markdown("<h2 style='color:#ffa500;'>⚠️ SUSPICIOUS CONTENT</h2>", unsafe_allow_html=True)
-
 # ================= MAIN LOGIC =================
 if uploaded_file is not None:
     
@@ -446,7 +437,7 @@ if uploaded_file is not None:
             # Use average of both frame scores as a proxy (no librosa dependency)
             audio_score = float(np.clip((video_score + ai_detection_score) / 2 + np.random.uniform(-3, 3), 0, 100))
 
-        piracy_risk = random.choice(["Low", "Medium", "High"])
+        piracy_risk = check_piracy(uploaded_file)
 
     # Verdict logic - strict thresholds for high accuracy
     composite_score = (video_score + ai_detection_score) / 2 if file_type == 'image' else (video_score + audio_score + ai_detection_score) / 3

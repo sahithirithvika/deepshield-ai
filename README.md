@@ -295,7 +295,7 @@ The system performs parallel analysis using multiple detection algorithms:
 - **Sai Spoorthy Eturu**
 - **Sahithi Rithvika Katakam** 
 
-Built with ❤️ for the Solution Challenge 2026 - Build with AI by passionate developers committed to digital content integrity.
+Built with ❤️ for the "Solution Challenge 2026 - Build with" AI by passionate developers committed to digital content integrity.
 
 ## � License
 

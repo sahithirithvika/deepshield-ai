@@ -1,0 +1,108 @@
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║         🛡️  DEEPSHIELD AI - DEPLOYMENT CHECKLIST             ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝
+
+┌───────────────────────────────────────────────────────────────┐
+│  PREREQUISITES (Already Done ✅)                              │
+└───────────────────────────────────────────────────────────────┘
+
+  ✅ Google Cloud SDK installed
+  ✅ Docker Desktop installed  
+  ✅ Project ID: deepshield-ai
+  ✅ All code committed to git
+  ✅ Repository: sahithirithvika/deepshield-ai
+  ✅ Deployment files created
+
+┌───────────────────────────────────────────────────────────────┐
+│  DEPLOYMENT STEPS (Do Now 🎯)                                 │
+└───────────────────────────────────────────────────────────────┘
+
+  ⬜ Step 1: Open Terminal in ~/deepshield-ai
+  
+  ⬜ Step 2: Run: sudo chown -R $(whoami) ~/.config
+  
+  ⬜ Step 3: Run: chmod +x deploy.sh
+  
+  ⬜ Step 4: Run: ./deploy.sh
+  
+  ⬜ Step 5: Wait 10-15 minutes for deployment
+  
+  ⬜ Step 6: Copy the live URL from output
+
+┌───────────────────────────────────────────────────────────────┐
+│  TESTING (After Deployment 🧪)                                │
+└───────────────────────────────────────────────────────────────┘
+
+  ⬜ Open URL in browser
+  
+  ⬜ Upload test image
+  
+  ⬜ Verify analysis works
+  
+  ⬜ Check certificate generates
+  
+  ⬜ Download PDF certificate
+  
+  ⬜ Test in incognito mode
+  
+  ⬜ Test on mobile device
+
+┌───────────────────────────────────────────────────────────────┐
+│  SUBMISSION (Final Step 🏆)                                   │
+└───────────────────────────────────────────────────────────────┘
+
+  ⬜ Copy live URL
+  
+  ⬜ Use URL for MVP Link
+  
+  ⬜ Use same URL for Working Prototype Link
+  
+  ⬜ Take screenshots
+  
+  ⬜ Submit to hackathon! 🎉
+
+┌───────────────────────────────────────────────────────────────┐
+│  YOUR LIVE URL WILL LOOK LIKE:                               │
+└───────────────────────────────────────────────────────────────┘
+
+  https://deepshield-ai-[hash]-uc.a.run.app
+
+  This is BOTH your MVP and Working Prototype link!
+
+┌───────────────────────────────────────────────────────────────┐
+│  QUICK HELP                                                   │
+└───────────────────────────────────────────────────────────────┘
+
+  📖 Quick Start:    START_HERE.md
+  📖 Full Guide:     DEPLOYMENT.md
+  📖 Commands:       COMMANDS.md
+  📖 Testing:        TESTING_CHECKLIST.md
+  📖 Summary:        DEPLOYMENT_SUMMARY.md
+
+┌───────────────────────────────────────────────────────────────┐
+│  TROUBLESHOOTING                                              │
+└───────────────────────────────────────────────────────────────┘
+
+  ❌ Permission denied?
+     → sudo chown -R $(whoami) ~/.config
+
+  ❌ Docker not running?
+     → Open Docker Desktop app
+
+  ❌ Need to login?
+     → gcloud auth login
+
+  ❌ Build fails?
+     → Check: docker ps
+     → Check: gcloud auth list
+
+  ❌ View logs?
+     → gcloud run logs read deepshield-ai --limit 50
+
+╔═══════════════════════════════════════════════════════════════╗
+║                                                               ║
+║  🚀 READY TO DEPLOY? RUN THE COMMANDS IN RUN_NOW.txt         ║
+║                                                               ║
+╚═══════════════════════════════════════════════════════════════╝

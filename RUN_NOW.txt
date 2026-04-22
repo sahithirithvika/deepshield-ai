@@ -1,0 +1,76 @@
+═══════════════════════════════════════════════════════════════
+  🛡️  DEEPSHIELD AI - DEPLOY NOW (3 COMMANDS)
+═══════════════════════════════════════════════════════════════
+
+📍 LOCATION: Open Terminal in ~/deepshield-ai directory
+
+───────────────────────────────────────────────────────────────
+  COMMAND 1: Fix Permissions
+───────────────────────────────────────────────────────────────
+
+sudo chown -R $(whoami) ~/.config
+
+(Enter your Mac password when prompted)
+
+───────────────────────────────────────────────────────────────
+  COMMAND 2: Make Script Executable
+───────────────────────────────────────────────────────────────
+
+chmod +x deploy.sh
+
+───────────────────────────────────────────────────────────────
+  COMMAND 3: Deploy Everything!
+───────────────────────────────────────────────────────────────
+
+./deploy.sh
+
+⏱️  WAIT: 10-15 minutes for build and deployment
+
+───────────────────────────────────────────────────────────────
+  WHAT YOU'LL GET
+───────────────────────────────────────────────────────────────
+
+✅ Live URL: https://deepshield-ai-[hash]-uc.a.run.app
+
+Use this URL for BOTH:
+  • MVP Link
+  • Working Prototype Link
+
+───────────────────────────────────────────────────────────────
+  AFTER DEPLOYMENT
+───────────────────────────────────────────────────────────────
+
+1. Copy the URL from terminal output
+2. Open URL in browser
+3. Test by uploading an image
+4. Verify certificate downloads
+5. Submit URL to hackathon! 🎉
+
+───────────────────────────────────────────────────────────────
+  IF SOMETHING GOES WRONG
+───────────────────────────────────────────────────────────────
+
+• Docker not running? → Open Docker Desktop
+• Need to login? → Run: gcloud auth login
+• Build fails? → Check: docker ps
+• Need help? → See START_HERE.md
+
+───────────────────────────────────────────────────────────────
+  USEFUL COMMANDS AFTER DEPLOYMENT
+───────────────────────────────────────────────────────────────
+
+View logs:
+  gcloud run logs read deepshield-ai --limit 50
+
+Get URL again:
+  gcloud run services describe deepshield-ai \
+    --region asia-south1 --format 'value(status.url)'
+
+Update after changes:
+  ./deploy.sh
+
+───────────────────────────────────────────────────────────────
+
+🚀 READY? RUN THE 3 COMMANDS ABOVE!
+
+═══════════════════════════════════════════════════════════════

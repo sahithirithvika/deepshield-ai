@@ -292,7 +292,7 @@ The system performs parallel analysis using multiple detection algorithms:
 
 ## 👥 Team
 
-- **Sai Spoorthy Eturu**
+- **Sai Spoorthy Eturu(Leader)**
 - **Sahithi Rithvika Katakam** 
 
 Built with ❤️ for the "Solution Challenge 2026 - Build with" AI by passionate developers committed to digital content integrity.

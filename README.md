@@ -24,13 +24,13 @@
 
 **MVP Link:**
 ```
-https://deepshield-ai-[hash]-uc.a.run.app
+https://deepshield-ai-hewb5hnwva-el.a.run.app
 ```
 *Will be available after running deployment*
 
 **Working Prototype Link:**
 ```
-https://deepshield-ai-[hash]-uc.a.run.app
+https://deepshield-ai-hewb5hnwva-el.a.run.app
 ```
 *Same as MVP - fully functional production deployment on Google Cloud Run*
 
@@ -83,7 +83,9 @@ In the era of generative AI, distinguishing between authentic and AI-generated c
 - Real-time progress indicators
 
 ## 🎬 Demo
-
+```
+https://drive.google.com/file/d/12lTwpETVq2bQOGFz_cuMISl0U26Dr2QD/view?usp=drivesdk
+```
 ### Upload & Analyze
 <img width="1792" height="1120" alt="Untitled" src="https://github.com/user-attachments/assets/d75ffd33-da02-44ee-8825-183ae1c9e43a" />
 <img width="1792" height="1120" alt="Untitled 2" src="https://github.com/user-attachments/assets/3d32b074-8b1f-450b-b507-3e50c39deec8" />
@@ -290,10 +292,10 @@ The system performs parallel analysis using multiple detection algorithms:
 
 ## 👥 Team
 
-- **Sahithi Rithvika Katakam** 
 - **Sai Spoorthy Eturu**
+- **Sahithi Rithvika Katakam** 
 
-Built with ❤️ for the Solution Challenge'2026 by passionate developers committed to digital content integrity.
+Built with ❤️ for the Solution Challenge 2026 - Build with AI by passionate developers committed to digital content integrity.
 
 ## � License
 

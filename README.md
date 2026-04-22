@@ -12,9 +12,36 @@
 
 *Powered by Computer Vision, Machine Learning & Blockchain Technology*
 
-[Features](#-features) • [Demo](#-demo) • [Installation](#-installation) • [Usage](#-usage) • [Technology](#-technology-stack) • [Team](#-team)
+[🚀 Live Demo](#-live-deployment) • [Features](#-features) • [Demo](#-demo) • [Installation](#-installation) • [Technology](#-technology-stack) • [Team](#-team)
 
 </div>
+
+---
+
+## 🚀 Live Deployment
+
+### 🔗 Production Links
+
+**MVP Link:**
+```
+https://deepshield-ai-[hash]-uc.a.run.app
+```
+*Will be available after running deployment*
+
+**Working Prototype Link:**
+```
+https://deepshield-ai-[hash]-uc.a.run.app
+```
+*Same as MVP - fully functional production deployment on Google Cloud Run*
+
+### ⚡ Quick Deploy
+
+```bash
+# One command deployment
+./deploy.sh
+```
+
+See [QUICKSTART.md](QUICKSTART.md) for detailed deployment instructions.
 
 ---
 
@@ -80,7 +107,57 @@ Every analysis generates a blockchain-verified certificate with:
 - Immutable verification record
 - Downloadable PDF certificate
 
-## 🚀 Installation
+## 🌐 Cloud Deployment (Production)
+
+### Deploy to Google Cloud Run
+
+**Prerequisites:**
+- Google Cloud account
+- Project ID: `deepshield-ai`
+- Docker Desktop installed
+- Google Cloud SDK installed
+
+**One-Command Deployment:**
+```bash
+./deploy.sh
+```
+
+**Manual Deployment:**
+```bash
+# 1. Fix permissions
+sudo chown -R $(whoami) ~/.config/gcloud
+
+# 2. Initialize and configure
+gcloud init
+gcloud config set project deepshield-ai
+gcloud config set run/region asia-south1
+
+# 3. Enable APIs
+gcloud services enable run.googleapis.com containerregistry.googleapis.com cloudbuild.googleapis.com
+
+# 4. Build and deploy
+gcloud builds submit --tag gcr.io/deepshield-ai/deepshield-app
+gcloud run deploy deepshield-ai \
+  --image gcr.io/deepshield-ai/deepshield-app \
+  --platform managed \
+  --region asia-south1 \
+  --allow-unauthenticated \
+  --port 8080 \
+  --memory 2Gi \
+  --cpu 2 \
+  --timeout 300
+```
+
+**Get Your Live URL:**
+```bash
+gcloud run services describe deepshield-ai --region asia-south1 --format 'value(status.url)'
+```
+
+📖 **Detailed Guide:** See [QUICKSTART.md](QUICKSTART.md) and [DEPLOYMENT.md](DEPLOYMENT.md)
+
+---
+
+## � Local Installation
 
 ### Prerequisites
 - Python 3.8 or higher
